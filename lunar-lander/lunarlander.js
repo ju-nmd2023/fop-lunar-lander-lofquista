@@ -1,5 +1,5 @@
 function setup() {
-  createCanvas(600, 300);
+  createCanvas(500, 400);
   background("skyblue");
 }
 
@@ -9,10 +9,10 @@ function scenery() {
   noStroke();
   // grass
   fill("green");
-  rect(0, 230, width, 100);
+  rect(0, 300, width, 100);
 
   // SUN
-  let sunX = 570;
+  let sunX = 475;
   let sunY = 25;
 
   // sun
@@ -37,33 +37,52 @@ function scenery() {
   push();
   noStroke();
   fill(83, 53, 10);
-  rect(350, 100, 20, 150);
+  rect(320, 140, 20, 185);
 
   // tree branch
   push();
   stroke(83, 53, 10);
   strokeWeight(4);
-  line(360, 165, 300, 150);
+  line(330, 180, 245, 165);
+  line(255, 165, 245, 150);
+  line(340, 200, 390, 195);
   pop();
 
   // tree crown
+
+  let treeX = 330;
+  let treeY = 135;
+
   fill(42, 126, 25);
-  ellipse(335, 100, 40, 40);
-  ellipse(365, 110, 50, 40);
+  ellipse(treeX - 25, treeY - 15, 40, 40);
+  ellipse(treeX, treeY, 50, 40);
 
   push();
   fill(32, 116, 15);
-  ellipse(388, 108, 40, 35);
+  ellipse(treeX + 25, treeY - 10, 40, 35);
+  ellipse(treeX, treeY - 20, 50, 40);
   pop();
 
-  ellipse(385, 90, 40, 40);
+  ellipse(treeX + 20, treeY - 38, 40, 40);
 
   push();
   fill(32, 116, 15);
-  ellipse(360, 75, 45, 45);
-  ellipse(342, 115, 25, 30);
+  ellipse(treeX - 12, treeY - 45, 45, 45);
   pop();
 
+  ellipse(treeX - 12, treeY - 20, 25, 30);
+
+  pop();
+
+  // birdnest
+  push();
+  stroke(249, 224, 118);
+  fill(249, 224, 118);
+  ellipse(285, 166, 45, 15);
+  strokeWeight(4);
+  // line(265, 165, 260, 160);
+  // line(270, 165, 265, 155);
+  // line(258, 170, 270, 168);
   pop();
 }
 
@@ -72,7 +91,7 @@ function draw() {
 }
 
 // TO DO:
-// add a branch on the branch
-// make tree in variables
-// check canvas size on smaller computer
-// make tree taller
+// fix birdnest
+// create egg
+// create pile of leafs
+// create game function
