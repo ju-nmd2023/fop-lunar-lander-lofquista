@@ -33,44 +33,44 @@ function scenery() {
   pop();
 
   // TREE
+
+  let treeX = 280;
+  let treeY = 125;
+
   // tree trunk
   push();
   noStroke();
   fill(83, 53, 10);
-  rect(320, 140, 20, 185);
+  rect(treeX - 10, treeY - 5, 20, 200);
 
   // tree branch
   push();
   stroke(83, 53, 10);
   strokeWeight(4);
-  line(330, 180, 245, 165);
-  line(255, 165, 245, 150);
-  line(340, 200, 390, 195);
+  line(treeX, treeY + 45, treeX - 85, treeY + 30);
+  line(treeX - 75, treeY + 30, treeX - 85, treeY + 15);
+  line(treeX + 10, treeY + 65, treeX + 60, treeY + 60);
   pop();
 
   // tree crown
-
-  let treeX = 330;
-  let treeY = 135;
-
   fill(42, 126, 25);
-  ellipse(treeX - 25, treeY - 15, 40, 40);
-  ellipse(treeX, treeY, 50, 40);
+  ellipse(treeX - 25, treeY - 20, 40, 40);
+  ellipse(treeX, treeY - 5, 50, 40);
 
   push();
   fill(32, 116, 15);
-  ellipse(treeX + 25, treeY - 10, 40, 35);
-  ellipse(treeX, treeY - 20, 50, 40);
+  ellipse(treeX + 25, treeY - 15, 40, 35);
+  ellipse(treeX, treeY - 25, 50, 40);
   pop();
 
-  ellipse(treeX + 20, treeY - 38, 40, 40);
+  ellipse(treeX + 20, treeY - 43, 40, 40);
 
   push();
   fill(32, 116, 15);
-  ellipse(treeX - 12, treeY - 45, 45, 45);
+  ellipse(treeX - 12, treeY - 50, 45, 45);
   pop();
 
-  ellipse(treeX - 12, treeY - 20, 25, 30);
+  ellipse(treeX - 12, treeY - 25, 25, 30);
 
   pop();
 
@@ -78,7 +78,7 @@ function scenery() {
   push();
   stroke(249, 224, 118);
   fill(249, 224, 118);
-  ellipse(285, 166, 45, 15);
+  ellipse(230, 157, 45, 15);
   strokeWeight(4);
   // line(265, 165, 260, 160);
   // line(270, 165, 265, 155);
@@ -91,7 +91,8 @@ function draw() {
 }
 
 // TO DO:
+// create soft grass
 // fix birdnest
 // create egg
-// create pile of leafs
+// create wings
 // create game function
