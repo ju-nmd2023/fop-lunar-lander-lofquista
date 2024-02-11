@@ -1,6 +1,20 @@
+let greenColor;
+let angles = [];
+
 function setup() {
   createCanvas(500, 400);
   background("skyblue");
+  // drawGrass(width/2, height, 100);
+  // greenColor = generateRandomGreenColor();
+  generateAngles();
+  // frameRate(2);
+}
+
+function generateAngles() {
+  for (let i = 0; i < 150; i++) {
+    // Adjust 150 to match the number of grass lines
+    angles.push(random(-PI / 10, PI)); // Generate random angles and store them in the array
+  }
 }
 
 function scenery() {
@@ -84,15 +98,50 @@ function scenery() {
   // line(270, 165, 265, 155);
   // line(258, 170, 270, 168);
   pop();
+
+  //   push();
+  // stroke("green");
+  // strokeWeight(2);
+  // line(205, 305, 200, 290);
+  //   pop();
+}
+
+function drawGrass(startX, endX, grassY2, numGrass) {
+  for (let i = 0; i < numGrass; i++) {
+    let grassX = random(startX, endX);
+    let grassY = grassY2;
+    let length = random(10, 20);
+    // let angle = random(-PI / 10, PI);
+    let greenColor = generateRandomGreenColor();
+
+    stroke(greenColor);
+    strokeWeight(2);
+    let GrassX2 = grassX + length * cos(angles[i]);
+    let GrassY2 = grassY - length * sin(angles[i]);
+
+    line(grassX, grassY, GrassX2, GrassY2);
+  }
+}
+
+function generateRandomGreenColor() {
+  return color(random(50, 100), random(150, 255), random(50, 100));
+}
+
+function egg() {
+  noStroke();
+  fill(255, 245, 196);
+  ellipse(229, 145, 20, 30);
 }
 
 function draw() {
   scenery();
+  egg();
+  // drawGrass(200, 255, 312, 150);
 }
 
 // TO DO:
 // create soft grass
 // fix birdnest
-// create egg
 // create wings
+// make tree taller?
 // create game function
