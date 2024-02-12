@@ -106,8 +106,8 @@ function egg(x, y) {
   // following line was adapted from ChatGpt 2024-02-12
   let endOffset = sin(frameCount * 0.2) * 3;
 
-  line(-10, 0, -25, -2 + endOffset);
-  line(10, 0, 25, -2 + endOffset);
+  line(-11, 0, -25, -2 + endOffset);
+  line(11, 0, 25, -2 + endOffset);
 }
 
 function draw() {
@@ -139,5 +139,6 @@ function draw() {
 // TO DO:
 // create soft grass
 // fix birdnest
-// create explosion if gameover
+// create explosion + crack if gameover
 // ask about citing chatgpt
+// ask about the key 38, why i need to update it to work
