@@ -1,23 +1,17 @@
-let greenColor;
-let angles = [];
+let eggY = 135;
+let velocity = 1;
+const acceleration = 0.1;
+// let gameOverPosition;
+gameOver = false;
+let gameIsRunning = true;
 
 function setup() {
   createCanvas(500, 400);
-  background("skyblue");
-  // drawGrass(width/2, height, 100);
-  // greenColor = generateRandomGreenColor();
-  generateAngles();
-  // frameRate(2);
-}
-
-function generateAngles() {
-  for (let i = 0; i < 150; i++) {
-    // Adjust 150 to match the number of grass lines
-    angles.push(random(-PI / 10, PI)); // Generate random angles and store them in the array
-  }
 }
 
 function scenery() {
+  background("skyblue");
+
   push();
 
   noStroke();
@@ -49,13 +43,13 @@ function scenery() {
   // TREE
 
   let treeX = 280;
-  let treeY = 125;
+  let treeY = 115;
 
   // tree trunk
   push();
   noStroke();
   fill(83, 53, 10);
-  rect(treeX - 10, treeY - 5, 20, 200);
+  rect(treeX - 10, treeY - 5, 20, 215);
 
   // tree branch
   push();
@@ -64,6 +58,7 @@ function scenery() {
   line(treeX, treeY + 45, treeX - 85, treeY + 30);
   line(treeX - 75, treeY + 30, treeX - 85, treeY + 15);
   line(treeX + 10, treeY + 65, treeX + 60, treeY + 60);
+  line(treeX + 25, treeY + 60, treeX + 30, treeY + 45);
   pop();
 
   // tree crown
@@ -92,56 +87,57 @@ function scenery() {
   push();
   stroke(249, 224, 118);
   fill(249, 224, 118);
-  ellipse(230, 157, 45, 15);
-  strokeWeight(4);
+  ellipse(230, 148, 45, 15);
+  // strokeWeight(4);
   // line(265, 165, 260, 160);
   // line(270, 165, 265, 155);
   // line(258, 170, 270, 168);
   pop();
-
-  //   push();
-  // stroke("green");
-  // strokeWeight(2);
-  // line(205, 305, 200, 290);
-  //   pop();
 }
 
-function drawGrass(startX, endX, grassY2, numGrass) {
-  for (let i = 0; i < numGrass; i++) {
-    let grassX = random(startX, endX);
-    let grassY = grassY2;
-    let length = random(10, 20);
-    // let angle = random(-PI / 10, PI);
-    let greenColor = generateRandomGreenColor();
-
-    stroke(greenColor);
-    strokeWeight(2);
-    let GrassX2 = grassX + length * cos(angles[i]);
-    let GrassY2 = grassY - length * sin(angles[i]);
-
-    line(grassX, grassY, GrassX2, GrassY2);
-  }
-}
-
-function generateRandomGreenColor() {
-  return color(random(50, 100), random(150, 255), random(50, 100));
-}
-
-function egg() {
+function egg(x, y) {
+  translate(x, y);
   noStroke();
   fill(255, 245, 196);
-  ellipse(229, 145, 20, 30);
+  ellipse(0, 0, 20, 30);
+  stroke(125, 0, 0);
+  strokeWeight(3);
+
+  // following line was adapted from ChatGpt 2024-02-12
+  let endOffset = sin(frameCount * 0.2) * 3;
+
+  line(-10, 0, -25, -2 + endOffset);
+  line(10, 0, 25, -2 + endOffset);
 }
 
 function draw() {
   scenery();
-  egg();
-  // drawGrass(200, 255, 312, 150);
+  egg(230, eggY);
+
+  if (gameIsRunning === true) {
+    eggY = eggY + velocity;
+    velocity = velocity + acceleration;
+
+    if (keyIsDown(38)) {
+      velocity = velocity - 0.2;
+    }
+
+    if (eggY > 300 && velocity > 2) {
+      gameIsRunning = false;
+
+      console.log("Game over!");
+    }
+
+    if (eggY > 300 && velocity <= 2) {
+      gameIsRunning = false;
+      gameOver = false;
+      console.log("You win!");
+    }
+  }
 }
 
 // TO DO:
 // create soft grass
 // fix birdnest
-// create wings
-// make tree taller?
-// create game function
+// create explosion if gameover
+// ask about citing chatgpt
