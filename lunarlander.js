@@ -1,9 +1,9 @@
 let eggY = 135;
 let velocity = 1;
 const acceleration = 0.1;
-// let gameOverPosition;
-gameOver = false;
+let gameOver = false;
 let gameIsRunning = true;
+let rotateEgg = false;
 
 function setup() {
   createCanvas(500, 400);
@@ -88,30 +88,92 @@ function scenery() {
   stroke(249, 224, 118);
   fill(249, 224, 118);
   ellipse(230, 148, 45, 15);
-  // strokeWeight(4);
-  // line(265, 165, 260, 160);
-  // line(270, 165, 265, 155);
-  // line(258, 170, 270, 168);
   pop();
 }
 
 function egg(x, y) {
+  push();
   translate(x, y);
+
+  if (rotateEgg) {
+    rotate(radians(45));
+  }
+
   noStroke();
   fill(255, 245, 196);
   ellipse(0, 0, 20, 30);
   stroke(125, 0, 0);
-  strokeWeight(3);
 
-  // following line was adapted from ChatGpt 2024-02-12
-  let endOffset = sin(frameCount * 0.2) * 3;
+  if (gameOver) {
+    stroke(0, 0, 0);
+    line(-9.5, -2, -5, -4);
+    line(-5, -4, 2, 0);
+    line(2, 0, 6, -4);
+    line(6, -4, 9, -3);
+    line(-9.5, 3, -3, 5);
+    line(-3, 5, -1, 8);
+    line(5, -12, 0, -8);
+    line(0, -8, -2, -9);
+  }
+  pop();
+}
 
-  line(-11, 0, -25, -2 + endOffset);
-  line(11, 0, 25, -2 + endOffset);
+// egg cracking in case of game over
+let cracks = [];
+
+function createCrack(x, y) {
+  const crackVelocity = 0.2 + Math.random();
+  const angle = Math.PI * Math.random();
+  const maxLife = 100 + Math.floor(Math.random) * 100;
+  return {
+    x: x,
+    y: y,
+    crackVelocity: crackVelocity,
+    maxLife: maxLife,
+    life: 0,
+    angle: angle,
+  };
+}
+
+function updateCrack(crack) {
+  crack.x = crack.x + Math.cos(crack.angle) * crack.crackVelocity;
+  crack.y = crack.y + Math.sin(crack.angle) * crack.crackVelocity;
+  crack.crackVelocity *= 0.97;
+  crack.life += 1;
+
+  if (crack.life > crack.maxLife) {
+    const crackIndex = cracks.indexOf(crack);
+    crack.splice(crackIndex, 1);
+  }
+}
+
+function drawCrack(crack) {
+  push();
+  translate(crack.x, crack.y);
+  noStroke();
+  fill(255, 210, 60);
+  ellipse(0, 0, 12, 8);
+  pop();
+}
+
+function textLose() {
+  textSize(55);
+  textAlign(CENTER, CENTER);
+  noStroke();
+  fill(255, 255, 255, 80);
+  rect(100, 145, 300, 100);
+  fill(0);
+  text("Game Over", 250, 200);
 }
 
 function draw() {
   scenery();
+
+  for (let crack of cracks) {
+    updateCrack(crack);
+    drawCrack(crack);
+  }
+
   egg(230, eggY);
 
   if (gameIsRunning === true) {
@@ -122,23 +184,30 @@ function draw() {
       velocity = velocity - 0.2;
     }
 
-    if (eggY > 300 && velocity > 2) {
+    if (eggY > 300 && velocity > 1) {
       gameIsRunning = false;
-
+      gameOver = true;
       console.log("Game over!");
+      rotateEgg = true;
+
+      for (let i = 0; i < 150; i++) {
+        cracks.push(createCrack(230, eggY));
+      }
     }
 
-    if (eggY > 300 && velocity <= 2) {
+    if (eggY > 300 && velocity <= 1) {
       gameIsRunning = false;
       gameOver = false;
       console.log("You win!");
     }
   }
+  if (gameOver) {
+    textLose();
+  }
 }
 
 // TO DO:
 // create soft grass
-// fix birdnest
-// create explosion + crack if gameover
-// ask about citing chatgpt
-// ask about the key 38, why i need to update it to work
+// fix birdnest?
+// adding text for when you win
+// create button for playing again
