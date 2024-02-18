@@ -261,3 +261,4 @@ function draw() {
 // TO DO:
 // create soft grass
 // create button for playing again
+// create start, game and end screen (switch through different states)
