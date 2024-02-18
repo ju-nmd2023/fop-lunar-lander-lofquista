@@ -2,8 +2,11 @@ let eggY = 135;
 let velocity = 1;
 const acceleration = 0.1;
 let gameOver = false;
+let gameWon = false;
 let gameIsRunning = true;
 let rotateEgg = false;
+let windStrength = -85;
+let maxWindStrength = 40;
 
 function setup() {
   createCanvas(500, 400);
@@ -88,6 +91,10 @@ function scenery() {
   stroke(249, 224, 118);
   fill(249, 224, 118);
   ellipse(230, 148, 45, 15);
+
+  stroke(229, 204, 98);
+  fill(229, 204, 98);
+  ellipse(230, 144, 35, 5);
   pop();
 }
 
@@ -116,6 +123,24 @@ function egg(x, y) {
     line(0, -8, -2, -9);
   }
   pop();
+}
+
+function wind(x, y, strength) {
+  stroke(211, 211, 211);
+  // line(190, eggY + 20, 230, eggY + 20);
+  noFill();
+  beginShape();
+  strokeWeight(1);
+  vertex(220 + x + strength, y + 20);
+  bezierVertex(
+    300 + x + strength,
+    y + 25,
+    150 + x + strength,
+    y + 30,
+    250 + x + strength,
+    y + 30
+  );
+  endShape();
 }
 
 // egg cracking in case of game over
@@ -157,17 +182,32 @@ function drawCrack(crack) {
 }
 
 function textLose() {
+  push();
   textSize(55);
   textAlign(CENTER, CENTER);
-  noStroke();
-  fill(255, 255, 255, 80);
-  rect(100, 145, 300, 100);
+  stroke(255, 0, 0);
+  strokeWeight(3);
   fill(0);
+  textStyle(BOLD);
   text("Game Over", 250, 200);
+  pop();
+}
+
+function textWin() {
+  push();
+  textSize(55);
+  textAlign(CENTER, CENTER);
+  stroke(0, 255, 0);
+  strokeWeight(3);
+  fill(0);
+  textStyle(BOLD);
+  text("You Win!", 250, 200);
+  pop();
 }
 
 function draw() {
   scenery();
+  windStrength += 1;
 
   for (let crack of cracks) {
     updateCrack(crack);
@@ -180,8 +220,15 @@ function draw() {
     eggY = eggY + velocity;
     velocity = velocity + acceleration;
 
+    if (windStrength > maxWindStrength) {
+      windStrength = 0;
+    }
+
     if (keyIsDown(38)) {
       velocity = velocity - 0.2;
+      wind(0, eggY, windStrength);
+      wind(-50, eggY + 50, windStrength);
+      wind(50, eggY + 20, windStrength);
     }
 
     if (eggY > 300 && velocity > 1) {
@@ -198,16 +245,19 @@ function draw() {
     if (eggY > 300 && velocity <= 1) {
       gameIsRunning = false;
       gameOver = false;
+      gameWon = true;
       console.log("You win!");
     }
   }
   if (gameOver) {
     textLose();
   }
+
+  if (gameWon) {
+    textWin();
+  }
 }
 
 // TO DO:
 // create soft grass
-// fix birdnest?
-// adding text for when you win
 // create button for playing again
