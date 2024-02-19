@@ -127,7 +127,6 @@ function egg(x, y) {
 
 function wind(x, y, strength) {
   stroke(211, 211, 211);
-  // line(190, eggY + 20, 230, eggY + 20);
   noFill();
   beginShape();
   strokeWeight(1);
@@ -205,9 +204,35 @@ function textWin() {
   pop();
 }
 
+function tryAgainButton(x, y, w, h) {
+  fill(255, 255, 255);
+  rect(x, y, w, h);
+
+  fill(0, 0, 0);
+  text("Try again", x + 25, y + 16);
+}
+
+function startButton(x, y, w, h) {
+  fill(255, 255, 255);
+  rect(x, y, w, h);
+
+  fill(0, 0, 0);
+  text("Start", x + 25, y + 16);
+}
+
 function draw() {
   scenery();
   windStrength += 1;
+
+  // if (
+  //   mouseIsPressed &&
+  //   mouseX > 200 &&
+  //   mouseX < 300 &&
+  //   mouseY > 247 &&
+  //   mouseY < 253
+  // ) {
+  //   draw();
+  // }
 
   for (let crack of cracks) {
     updateCrack(crack);
@@ -255,6 +280,10 @@ function draw() {
 
   if (gameWon) {
     textWin();
+  }
+
+  if (gameIsRunning === false) {
+    tryAgainButton(200, 250, 100, 25);
   }
 }
 
