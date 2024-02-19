@@ -12,6 +12,105 @@ function setup() {
   createCanvas(500, 400);
 }
 
+function startScreen() {
+  background("skyblue");
+  push();
+  noStroke();
+  fill(83, 53, 10);
+  rect(350, 150, 75, 250);
+  stroke(83, 53, 10);
+  strokeWeight(20);
+  line(365, 330, 0, 300);
+
+  stroke(249, 224, 118);
+  fill(249, 224, 118);
+  ellipse(130, 300, 185, 50);
+
+  stroke(229, 204, 98);
+  fill(229, 204, 98);
+  ellipse(130, 290, 130, 25);
+
+  noStroke();
+
+  fill(42, 126, 25);
+  ellipse(300, 95, 150, 150);
+  ellipse(385, 170, 130, 150);
+  ellipse(435, 85, 175, 150);
+  ellipse(465, 145, 100, 115);
+  ellipse(480, 0, 250, 230);
+
+  fill(32, 116, 15);
+  ellipse(350, 15, 120, 150);
+  ellipse(435, 85, 175, 150);
+  ellipse(300, 160, 95, 80);
+  ellipse(450, 205, 85, 90);
+
+  fill(255, 255, 255);
+  ellipse(130, 235, 85, 120);
+  pop();
+}
+
+// win screen
+// push();
+// background("skyblue");
+// noStroke();
+// fill("green");
+// rect(0, 325, width, 75);
+
+// fill(255, 255, 255);
+// ellipse(250, 300, 75, 100);
+// pop();
+
+function gameScreen() {
+  scenery();
+  for (let crack of cracks) {
+    updateCrack(crack);
+    drawCrack(crack);
+  }
+  egg(230, eggY);
+
+  if (keyIsDown(38)) {
+    velocity = velocity - 0.2;
+    wind(0, eggY, windStrength);
+    wind(-50, eggY + 50, windStrength);
+    wind(50, eggY + 20, windStrength);
+  }
+  if (gameOver) {
+    textLose();
+  }
+  if (gameWon) {
+    textWin();
+  }
+}
+
+function endScreen() {
+  push();
+  background("skyblue");
+  noStroke();
+  fill("green");
+  rect(0, 325, width, 75);
+
+  fill(255, 210, 60);
+  ellipse(245, 358, 400, 75);
+
+  fill(255, 255, 255);
+  translate(250, 270);
+  rotate(45);
+  ellipse(0, 0, 165, 200);
+  pop();
+  strokeWeight(3);
+  stroke(0, 0, 0);
+  line(342, 275, 300, 255);
+  line(300, 255, 300, 225);
+
+  line(193, 210, 240, 220);
+  line(240, 220, 240, 295);
+  line(240, 295, 315, 322);
+
+  line(162, 250, 195, 280);
+  line(195, 280, 210, 320);
+}
+
 function scenery() {
   background("skyblue");
 
@@ -112,6 +211,7 @@ function egg(x, y) {
   stroke(125, 0, 0);
 
   if (gameOver) {
+    strokeWeight(1);
     stroke(0, 0, 0);
     line(-9.5, -2, -5, -4);
     line(-5, -4, 2, 0);
@@ -220,8 +320,15 @@ function startButton(x, y, w, h) {
   text("Start", x + 25, y + 16);
 }
 
+// function draw() {
+//   startScreen();
+// }
+
+let state = "start";
+
 function draw() {
-  scenery();
+  // startScreen();
+  // scenery();
   windStrength += 1;
 
   // if (
@@ -234,12 +341,12 @@ function draw() {
   //   draw();
   // }
 
-  for (let crack of cracks) {
-    updateCrack(crack);
-    drawCrack(crack);
-  }
+  // for (let crack of cracks) {
+  //   updateCrack(crack);
+  //   drawCrack(crack);
+  // }
 
-  egg(230, eggY);
+  // egg(230, eggY);
 
   if (gameIsRunning === true) {
     eggY = eggY + velocity;
@@ -249,12 +356,12 @@ function draw() {
       windStrength = 0;
     }
 
-    if (keyIsDown(38)) {
-      velocity = velocity - 0.2;
-      wind(0, eggY, windStrength);
-      wind(-50, eggY + 50, windStrength);
-      wind(50, eggY + 20, windStrength);
-    }
+    // if (keyIsDown(38)) {
+    //   velocity = velocity - 0.2;
+    //   wind(0, eggY, windStrength);
+    //   wind(-50, eggY + 50, windStrength);
+    //   wind(50, eggY + 20, windStrength);
+    // }
 
     if (eggY > 300 && velocity > 1) {
       gameIsRunning = false;
@@ -274,20 +381,50 @@ function draw() {
       console.log("You win!");
     }
   }
-  if (gameOver) {
-    textLose();
-  }
+  // if (gameOver) {
+  //   textLose();
+  // }
 
-  if (gameWon) {
-    textWin();
-  }
+  // if (endScreen) {
+  //   tryAgainButton(200, 250, 100, 25);
+  // }
 
-  if (gameIsRunning === false) {
-    tryAgainButton(200, 250, 100, 25);
+  // if (gameWon) {
+  //   textWin();
+  // }
+
+  //     push();
+  // background("skyblue");
+  // noStroke();
+  // fill("green");
+  // rect(0, 325, width, 75);
+
+  // fill(255, 255, 255);
+  // ellipse(250, 300, 75, 100);
+  // pop();
+
+  if (state === "start") {
+    startScreen();
+  } else if (state === "game") {
+    gameScreen();
+  } else if (state === "end") {
+    endScreen();
+  }
+}
+
+function mouseClicked() {
+  if (state === "start") {
+    state = "game";
+  } else if (state === "game") {
+    state = "end";
+  } else if (state === "end") {
+    state = "game";
   }
 }
 
 // TO DO:
-// create soft grass
-// create button for playing again
-// create start, game and end screen (switch through different states)
+// create the switch between different states (start, game, end)
+// connect clicks to buttons
+// make sure the game is running from the beginning
+// add text to start screen
+// fix screen for when winning
