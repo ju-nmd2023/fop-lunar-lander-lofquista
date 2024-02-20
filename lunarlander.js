@@ -7,6 +7,9 @@ let gameIsRunning = false;
 let rotateEgg = false;
 let windStrength = -85;
 let maxWindStrength = 40;
+let timer = 0;
+let state = "start";
+let cracks = [];
 
 function setup() {
   createCanvas(500, 400);
@@ -48,13 +51,24 @@ function startScreen() {
   fill(255, 255, 255);
   ellipse(130, 235, 85, 120);
 
-  fill(255, 255, 255);
+  fill(255, 150, 50);
   rect(30, 95, 175, 60, 5);
 
-  fill(0, 0, 0);
+  fill(255);
+  textStyle(BOLD);
   textSize(30);
-  text("START", 70, 135);
+  text("S T A R T", 50, 135);
   pop();
+
+  fill(255);
+  textSize(15);
+  text("Oh no, the egg is falling from the tree!", 280, 50, 175);
+  text(
+    "Use the UP ARROW KEY to slow the egg and land it safely on the grass",
+    280,
+    110,
+    175
+  );
 }
 
 function gameScreen() {
@@ -73,9 +87,19 @@ function gameScreen() {
   }
   if (gameOver) {
     textLose();
+    timer++;
+    if (timer > 100) {
+      timer = 0;
+      state = "end";
+    }
   }
   if (gameWon) {
     textWin();
+    timer++;
+    if (timer > 60) {
+      timer = 0;
+      state = "end";
+    }
   }
 }
 
@@ -107,12 +131,13 @@ function endScreenLose() {
   line(195, 280, 210, 320);
 
   noStroke();
-  fill(255, 192, 203);
+  fill(255, 150, 50);
   rect(175, 80, 150, 45, 5);
 
   fill(0, 0, 0);
   textSize(20);
-  text("Try again", 209, 109);
+  textStyle(BOLD);
+  text("TRY AGAIN", 195, 109);
 }
 
 function endScreenWin() {
@@ -127,11 +152,12 @@ function endScreenWin() {
   pop();
 
   noStroke();
-  fill(255, 192, 203);
+  fill(255, 150, 50);
   rect(175, 75, 150, 45, 5);
 
   fill(0, 0, 0);
   textSize(20);
+  textStyle(BOLD);
   text("PLAY AGAIN", 191, 104);
 }
 
@@ -274,9 +300,6 @@ function wind(x, y, strength) {
   endShape();
 }
 
-// egg cracking in case of game over
-let cracks = [];
-
 function createCrack(x, y) {
   const crackVelocity = 0.2 + Math.random();
   const angle = Math.PI * Math.random();
@@ -336,49 +359,8 @@ function textWin() {
   pop();
 }
 
-// function tryAgainButton(x, y, w, h) {
-//   fill(255, 255, 255);
-//   rect(x, y, w, h);
-
-//   fill(0, 0, 0);
-//   text("Try again", x + 25, y + 16);
-// }
-
-// function startButton(x, y, w, h) {
-//   fill(255, 255, 255);
-//   rect(x, y, w, h);
-
-//   fill(0, 0, 0);
-//   text("Start", x + 25, y + 16);
-// }
-
-// function draw() {
-//   startScreen();
-// }
-
-let state = "start";
-
 function draw() {
-  // startScreen();
-  // scenery();
   windStrength += 1;
-
-  // if (
-  //   mouseIsPressed &&
-  //   mouseX > 200 &&
-  //   mouseX < 300 &&
-  //   mouseY > 247 &&
-  //   mouseY < 253
-  // ) {
-  //   draw();
-  // }
-
-  // for (let crack of cracks) {
-  //   updateCrack(crack);
-  //   drawCrack(crack);
-  // }
-
-  // egg(230, eggY);
 
   if (gameIsRunning === true) {
     eggY = eggY + velocity;
@@ -387,13 +369,6 @@ function draw() {
     if (windStrength > maxWindStrength) {
       windStrength = 0;
     }
-
-    // if (keyIsDown(38)) {
-    //   velocity = velocity - 0.2;
-    //   wind(0, eggY, windStrength);
-    //   wind(-50, eggY + 50, windStrength);
-    //   wind(50, eggY + 20, windStrength);
-    // }
 
     if (eggY > 300 && velocity > 1) {
       gameIsRunning = false;
@@ -413,27 +388,6 @@ function draw() {
       console.log("You win!");
     }
   }
-  // if (gameOver) {
-  //   textLose();
-  // }
-
-  // if (endScreen) {
-  //   tryAgainButton(200, 250, 100, 25);
-  // }
-
-  // if (gameWon) {
-  //   textWin();
-  // }
-
-  //     push();
-  // background("skyblue");
-  // noStroke();
-  // fill("green");
-  // rect(0, 325, width, 75);
-
-  // fill(255, 255, 255);
-  // ellipse(250, 300, 75, 100);
-  // pop();
 
   if (state === "start") {
     startScreen();
@@ -468,7 +422,4 @@ function mouseClicked() {
 }
 
 // TO DO:
-// make caps on try again button
-// change color on buttons
-// decide how to move between gameover/you win screen to end screen
 // fix github pages
