@@ -97,7 +97,7 @@ function gameScreen() {
   if (gameWon) {
     textWin();
     timer++;
-    if (timer > 60) {
+    if (timer > 100) {
       timer = 0;
       state = "end";
     }
