@@ -418,6 +418,3 @@ function mouseClicked() {
     }
   }
 }
-
-// TO DO:
-// fix github pages
