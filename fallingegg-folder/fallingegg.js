@@ -135,7 +135,7 @@ function endScreenLose() {
   fill(255, 150, 50);
   rect(175, 80, 150, 45, 5);
 
-  fill(0, 0, 0);
+  fill(255);
   textSize(20);
   textStyle(BOLD);
   text("TRY AGAIN", 195, 109);
@@ -156,7 +156,7 @@ function endScreenWin() {
   fill(255, 150, 50);
   rect(175, 75, 150, 45, 5);
 
-  fill(0, 0, 0);
+  fill(255);
   textSize(20);
   textStyle(BOLD);
   text("PLAY AGAIN", 191, 104);
