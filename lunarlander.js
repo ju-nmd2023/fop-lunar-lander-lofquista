@@ -3,7 +3,7 @@ let velocity = 1;
 const acceleration = 0.1;
 let gameOver = false;
 let gameWon = false;
-let gameIsRunning = true;
+let gameIsRunning = false;
 let rotateEgg = false;
 let windStrength = -85;
 let maxWindStrength = 40;
@@ -47,19 +47,15 @@ function startScreen() {
 
   fill(255, 255, 255);
   ellipse(130, 235, 85, 120);
+
+  fill(255, 255, 255);
+  rect(30, 95, 175, 60, 5);
+
+  fill(0, 0, 0);
+  textSize(30);
+  text("START", 70, 135);
   pop();
 }
-
-// win screen
-// push();
-// background("skyblue");
-// noStroke();
-// fill("green");
-// rect(0, 325, width, 75);
-
-// fill(255, 255, 255);
-// ellipse(250, 300, 75, 100);
-// pop();
 
 function gameScreen() {
   scenery();
@@ -83,7 +79,7 @@ function gameScreen() {
   }
 }
 
-function endScreen() {
+function endScreenLose() {
   push();
   background("skyblue");
   noStroke();
@@ -109,6 +105,42 @@ function endScreen() {
 
   line(162, 250, 195, 280);
   line(195, 280, 210, 320);
+
+  noStroke();
+  fill(255, 192, 203);
+  rect(175, 80, 150, 45, 5);
+
+  fill(0, 0, 0);
+  textSize(20);
+  text("Try again", 209, 109);
+}
+
+function endScreenWin() {
+  push();
+  background("skyblue");
+  noStroke();
+  fill("green");
+  rect(0, 325, width, 75);
+
+  fill(255, 255, 255);
+  ellipse(250, 300, 75, 100);
+  pop();
+
+  noStroke();
+  fill(255, 192, 203);
+  rect(175, 75, 150, 45, 5);
+
+  fill(0, 0, 0);
+  textSize(20);
+  text("PLAY AGAIN", 191, 104);
+}
+
+function endScreen() {
+  if (gameOver) {
+    endScreenLose();
+  } else if (gameWon) {
+    endScreenWin();
+  }
 }
 
 function scenery() {
@@ -304,21 +336,21 @@ function textWin() {
   pop();
 }
 
-function tryAgainButton(x, y, w, h) {
-  fill(255, 255, 255);
-  rect(x, y, w, h);
+// function tryAgainButton(x, y, w, h) {
+//   fill(255, 255, 255);
+//   rect(x, y, w, h);
 
-  fill(0, 0, 0);
-  text("Try again", x + 25, y + 16);
-}
+//   fill(0, 0, 0);
+//   text("Try again", x + 25, y + 16);
+// }
 
-function startButton(x, y, w, h) {
-  fill(255, 255, 255);
-  rect(x, y, w, h);
+// function startButton(x, y, w, h) {
+//   fill(255, 255, 255);
+//   rect(x, y, w, h);
 
-  fill(0, 0, 0);
-  text("Start", x + 25, y + 16);
-}
+//   fill(0, 0, 0);
+//   text("Start", x + 25, y + 16);
+// }
 
 // function draw() {
 //   startScreen();
@@ -414,17 +446,29 @@ function draw() {
 
 function mouseClicked() {
   if (state === "start") {
-    state = "game";
+    if (mouseX > 30 && mouseX < 205 && mouseY > 95 && mouseY < 155) {
+      state = "game";
+      gameIsRunning = true;
+    }
   } else if (state === "game") {
     state = "end";
   } else if (state === "end") {
-    state = "game";
+    if (mouseX > 175 && mouseX < 325 && mouseY > 80 && mouseY < 125) {
+      eggY = 135;
+      velocity = 1;
+      gameOver = false;
+      gameWon = false;
+      gameIsRunning = true;
+      rotateEgg = false;
+      windStrength = -85;
+      cracks = [];
+      state = "game";
+    }
   }
 }
 
 // TO DO:
-// create the switch between different states (start, game, end)
-// connect clicks to buttons
-// make sure the game is running from the beginning
-// add text to start screen
-// fix screen for when winning
+// make caps on try again button
+// change color on buttons
+// decide how to move between gameover/you win screen to end screen
+// fix github pages
