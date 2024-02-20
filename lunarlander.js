@@ -373,7 +373,6 @@ function draw() {
     if (eggY > 300 && velocity > 1) {
       gameIsRunning = false;
       gameOver = true;
-      console.log("Game over!");
       rotateEgg = true;
 
       for (let i = 0; i < 150; i++) {
@@ -385,7 +384,6 @@ function draw() {
       gameIsRunning = false;
       gameOver = false;
       gameWon = true;
-      console.log("You win!");
     }
   }
 
