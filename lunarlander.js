@@ -62,12 +62,12 @@ function startScreen() {
 
   fill(255);
   textSize(15);
-  text("Oh no, the egg is falling from the tree!", 280, 50, 175);
+  text("Oh no, the egg is falling from the tree!", 280, 50, 180);
   text(
-    "Use the UP ARROW KEY to slow the egg and land it safely on the grass",
+    "Use the SPACE KEY to slow down the egg and land it safely on the grass.",
     280,
     110,
-    175
+    180
   );
 }
 
@@ -79,7 +79,7 @@ function gameScreen() {
   }
   egg(230, eggY);
 
-  if (keyIsDown(38)) {
+  if (keyIsDown(32)) {
     velocity = velocity - 0.2;
     wind(0, eggY, windStrength);
     wind(-50, eggY + 50, windStrength);
