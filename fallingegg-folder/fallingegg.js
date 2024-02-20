@@ -13,6 +13,7 @@ let cracks = [];
 
 function setup() {
   createCanvas(500, 400);
+  frameRate(50);
 }
 
 function startScreen() {
