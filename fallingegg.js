@@ -13,7 +13,6 @@ let cracks = [];
 
 function setup() {
   let canvas = createCanvas(500, 400);
-  // canvas.parent("sketch-container");
   frameRate(50);
 }
 
