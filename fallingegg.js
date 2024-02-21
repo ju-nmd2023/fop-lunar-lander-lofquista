@@ -12,7 +12,7 @@ let state = "start";
 let cracks = [];
 
 function setup() {
-  let canvas = createCanvas(500, 400);
+  createCanvas(500, 400);
   frameRate(50);
 }
 
@@ -368,7 +368,7 @@ function draw() {
     velocity = velocity + acceleration;
 
     if (windStrength > maxWindStrength) {
-      windStrength = 0;
+      windStrength = -30;
     }
 
     if (eggY > 300 && velocity > 1) {
